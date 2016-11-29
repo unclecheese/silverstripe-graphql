@@ -1,0 +1,7 @@
+SilverStripe\GraphQL:
+  schema:
+    types:
+      fieldSubmission: 'SilverStripe\GraphQL\Forms\FieldSubmissionTypeCreator'
+      formResult: 'SilverStripe\GraphQL\Forms\FormResultTypeCreator'
+    mutations:
+      submitForm: 'SilverStripe\GraphQL\Forms\FormMutationCreator'

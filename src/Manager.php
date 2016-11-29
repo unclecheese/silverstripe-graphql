@@ -174,7 +174,7 @@ class Manager
      */
     public function getType($name)
     {
-        return $this->types[$name];
+        return (isset($this->types[$name])) ? $this->types[$name] : null;
     }
 
     /**
