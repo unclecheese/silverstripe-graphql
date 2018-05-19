@@ -43,3 +43,6 @@ Only:
 SilverStripe\Admin\LeftAndMain:
   extensions:
     - SilverStripe\GraphQL\Extensions\ClientConfigProvider
+SilverStripe\GraphQL\Controller:
+  extensions:
+    - SilverStripe\GraphQL\Extensions\IntrospectionProvider
