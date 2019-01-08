@@ -50,7 +50,7 @@ class CodeGenerationSchemaStore implements SchemaStorageInterface
      * @param SchemaConfig $schemaConfig
      * @return $this
      */
-    public function load(SchemaConfig $schemaConfig)
+    public function loadIntoConfig(SchemaConfig $schemaConfig)
     {
         $registry = $this->encoder->getRegistry();
         $schemaConfig->setTypeLoader(function ($type) use ($registry) {
@@ -60,5 +60,13 @@ class CodeGenerationSchemaStore implements SchemaStorageInterface
         $schemaConfig->setMutation($registry->get('Mutation'));
 
         return $this;
+    }
+
+    /**
+     * @return TypeRegistryEncoderInterface
+     */
+    public function getEncoder()
+    {
+        return $this->encoder;
     }
 }

@@ -84,7 +84,8 @@ class GraphQLPHPTypeRegistryEncoder implements TypeRegistryEncoderInterface
     }
 
     /**
-     * @return string|void
+     * @return string
+     * @throws Error
      */
     public function encode()
     {
@@ -96,7 +97,7 @@ class GraphQLPHPTypeRegistryEncoder implements TypeRegistryEncoderInterface
             ->makeFinal()
             ->addStmt($factory->property('types')->makePrivate()->setDefault([]))
             ->addStmt(
-                $factory->method('has')
+                $factory->method('hasType')
                     ->makePublic()
                     ->addParam($factory->param('name'))
                     ->setDocComment('/**
@@ -116,7 +117,7 @@ class GraphQLPHPTypeRegistryEncoder implements TypeRegistryEncoderInterface
                     )
             )
             ->addStmt(
-                $factory->method('get')
+                $factory->method('getType')
                     ->makePublic()
                     ->addParam($factory->param('name'))
                     ->setDocComment('/**
@@ -134,16 +135,18 @@ class GraphQLPHPTypeRegistryEncoder implements TypeRegistryEncoderInterface
                                 ])
                             ),
                             [
-                                new Assign(
-                                    new ArrayDimFetch(
-                                        $factory->propertyFetch($factory->var('this'), 'types'),
-                                        $factory->var('name')
-                                    ),
-                                    new MethodCall(
-                                        $factory->var('this'),
-                                        $factory->var('name')
+                                'stmts' => [
+                                    new Assign(
+                                        new ArrayDimFetch(
+                                            $factory->propertyFetch($factory->var('this'), 'types'),
+                                            $factory->var('name')
+                                        ),
+                                        new MethodCall(
+                                            $factory->var('this'),
+                                            $factory->var('name')
+                                        )
                                     )
-                                )
+                                ]
                             ]
                         )
                     )
@@ -166,7 +169,10 @@ class GraphQLPHPTypeRegistryEncoder implements TypeRegistryEncoderInterface
         $stmts = [$use->getNode(), $class->getNode()];
         $prettyPrinter = new Standard();
 
-        return $prettyPrinter->prettyPrintFile($stmts);
+        $code = $prettyPrinter->prettyPrintFile($stmts);
+        echo $code;
+die();
+        return $code;
     }
 
     /**
@@ -193,7 +199,7 @@ class GraphQLPHPTypeRegistryEncoder implements TypeRegistryEncoderInterface
     /**
      * @return string
      */
-    protected function getCacheFile()
+    public function getCacheFile()
     {
         return TEMP_PATH . DIRECTORY_SEPARATOR . ".cache.{$this->identifier}";
     }
