@@ -570,7 +570,7 @@ class Schema implements ConfigurationApplier
      * Creates a readonly object that can be used by a storage service.
      * Processes all of the types, fields, models, etc to end up with a coherent,
      * schema that can be validated and stored.
-     * 
+     *
      * @return StorableSchema
      */
     public function createStoreableSchema(): StorableSchema
